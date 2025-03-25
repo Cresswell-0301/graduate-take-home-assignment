@@ -10,7 +10,14 @@
 
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" v-model="password" id="password" class="form-control" required />
+
+                <div class="input-group">
+                    <input :type="showPassword ? 'text' : 'password'" v-model="password" id="password" class="form-control" required />
+
+                    <span class="view-password" @click="togglePasswordVisibility">
+                        <i :class="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
+                    </span>
+                </div>
             </div>
 
             <p class="mt-3">Don't have an account? <router-link to="/register">Register here</router-link></p>
@@ -23,6 +30,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "UserLogin",
 
@@ -30,22 +39,39 @@ export default {
         return {
             email: "",
             password: "",
+            showPassword: false,
         };
     },
 
     methods: {
-        handleLogin() {
-            const userName = this.email.split("@")[0];
+        togglePasswordVisibility() {
+            this.showPassword = !this.showPassword;
+        },
 
-            const user = {
-                email: this.email,
-                name: userName.charAt(0).toUpperCase() + userName.slice(1),
-            };
+        async handleLogin() {
+            try {
+                const res = await axios.post("/login", {
+                    email: this.email,
+                    password: this.password,
+                });
 
-            localStorage.setItem("user", JSON.stringify(user));
+                if (res.status === 200) {
+                    alert("Login successful");
 
-            this.$emit("login-success");
-            this.$router.push("/profile");
+                    const user = {
+                        name: res.data.user.name,
+                        email: res.data.user.email,
+                    };
+
+                    localStorage.setItem("user", JSON.stringify(user));
+
+                    this.$emit("login-success");
+
+                    this.$router.push("/profile");
+                }
+            } catch (error) {
+                alert(`${error.response.data.message} ! Pls try again`);
+            }
         },
     },
 };
@@ -60,5 +86,13 @@ export default {
 
 .form-group {
     margin-bottom: 1rem;
+}
+
+.view-password {
+    cursor: pointer;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

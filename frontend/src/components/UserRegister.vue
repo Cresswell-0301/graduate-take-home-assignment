@@ -3,6 +3,12 @@
         <h2 class="my-4">Create Account</h2>
 
         <form @submit.prevent="handleRegister" class="register-form">
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" v-model="name" id="name" class="form-control" required />
+            </div>
+
             <!-- Email -->
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -45,11 +51,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "UserRegister",
 
     data() {
         return {
+            name: "",
             email: "",
             password: "",
             confirmPassword: "",
@@ -62,24 +71,44 @@ export default {
         togglePasswordVisibility() {
             this.showPassword = !this.showPassword;
         },
+
         toggleConfirmPasswordVisibility() {
             this.showConfirmPassword = !this.showConfirmPassword;
         },
-        handleRegister() {
+
+        async handleRegister() {
             if (this.password !== this.confirmPassword) {
                 alert("Passwords do not match");
                 return;
             }
 
-            const user = {
-                email: this.email,
-            };
+            if (this.password.length < 8) {
+                alert("Password must be at least 8 characters");
+                return;
+            }
 
-            localStorage.setItem("user", JSON.stringify(user));
+            try {
+                const res = await axios.post("/register", {
+                    name: this.name,
+                    email: this.email,
+                    password: this.password,
+                });
 
-            alert("Account created successfully");
+                const user = {
+                    name: res.data.user.name,
+                    email: res.data.user.email,
+                };
 
-            this.$router.push("/login");
+                if (res.status === 201) {
+                    localStorage.setItem("user", JSON.stringify(user));
+
+                    alert("Account created successfully");
+
+                    this.$router.push("/login");
+                }
+            } catch (error) {
+                alert(`${error.response.data.message} ! Pls try again`);
+            }
         },
     },
 };

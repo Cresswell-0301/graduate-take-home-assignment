@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "App",
 
@@ -35,11 +37,22 @@ export default {
             localStorage.setItem("isLoggedIn", "true");
         },
 
-        logout() {
-            this.isLoggedIn = false;
-            localStorage.removeItem("isLoggedIn");
-            localStorage.removeItem("user");
-            this.$router.push("/login");
+        async logout() {
+            try {
+                const res = await axios.post("/logout");
+
+                if (res.status === 200) {
+                    alert(res.data.message);
+
+                    this.isLoggedIn = false;
+                    localStorage.removeItem("isLoggedIn");
+                    localStorage.removeItem("user");
+
+                    this.$router.push("/login");
+                }
+            } catch (error) {
+                console.error(error);
+            }
         },
     },
 };
