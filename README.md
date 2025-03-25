@@ -1,24 +1,24 @@
-# graduate-take-home-assignment
+# Graduate Trainee - Question 1
 
-## Project setup
-```
-npm install
-```
+## Overview
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+It involves creating a web application with **User Registration**, **Login**,**Logout**, and **User Profile (About Me)** using **Vue.js**, **BootstrapVue3**, and **localStorage** for storing user details.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Features:
 
-### Lints and fixes files
-```
-npm run lint
-```
+-   **User Registration**: Allows the user to register with an email and password, which is stored in `localStorage`.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+-   **User Login**: Allows the user to log in by verifying the stored email and password.
+
+-   **Password Visibility Toggle**: Users can toggle the visibility of their passwords during registration and login.
+
+-   **Navigation Bar**: Dynamically updates based on the login state:
+    -   Shows **Login** and **Register** links when the user is not logged in.
+    -   Shows **Profile** and **Logout** links after the user logs in.
+
+### Technologies Used:
+
+-   **Vue.js** (for the frontend framework)
+-   **BootstrapVue3** (for styling and responsive UI components)
+-   **Font Awesome** (for the eye icons used to toggle password visibility)
+-   **localStorage** (for storing user data)
