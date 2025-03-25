@@ -1,6 +1,6 @@
-# Question 1
+# Graduate Trainee
 
-## Overview
+## Question 1 - Overview
 
 This project is a simple web application that allows users to **register**, **login**, **logout**, and view their **profile** (about me) page. It's built with **Vue.js** for the frontend, **BootstrapVue3** for styling, and **localStorage** to store user details.
 
@@ -22,9 +22,7 @@ This project is a simple web application that allows users to **register**, **lo
 
 ---
 
-# Question 2
-
-## Overview
+## Question 2 - Overview
 
 In this project, I created a **user registration** and **login API** using **Laravel** (PHP framework) with **MySQL** as the database. The backend allows users to register, log in, and log out securely, while the frontend is built with **Vue.js** to handle the UI and interactions.
 
