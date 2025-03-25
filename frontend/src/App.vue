@@ -10,15 +10,29 @@
             </div>
         </nav>
 
+        <!-- Toast Component -->
+        <ToastComponent ref="toast" />
+
         <router-view @login-success="handleLogin"></router-view>
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import ToastComponent from "./components/ToastComponent.vue";
 
 export default {
     name: "App",
+
+    components: {
+        ToastComponent,
+    },
+
+    provide() {
+        return {
+            showToast: this.showToast,
+        };
+    },
 
     data() {
         return {
@@ -42,7 +56,7 @@ export default {
                 const res = await axios.post("/logout");
 
                 if (res.status === 200) {
-                    alert(res.data.message);
+                    this.showToast("success", res.data.message);
 
                     this.isLoggedIn = false;
                     localStorage.removeItem("isLoggedIn");
@@ -53,6 +67,10 @@ export default {
             } catch (error) {
                 console.error(error);
             }
+        },
+
+        showToast(type, title) {
+            this.$refs.toast.showToast(type, title);
         },
     },
 };

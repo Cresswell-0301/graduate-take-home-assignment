@@ -33,6 +33,8 @@
 import axios from "axios";
 
 export default {
+    inject: ["showToast"],
+
     name: "UserLogin",
 
     data() {
@@ -56,7 +58,7 @@ export default {
                 });
 
                 if (res.status === 200) {
-                    alert("Login successful");
+                    this.showToast("success", "Login successful");
 
                     const user = {
                         name: res.data.user.name,
@@ -70,7 +72,7 @@ export default {
                     this.$router.push("/profile");
                 }
             } catch (error) {
-                alert(`${error.response.data.message} ! Pls try again`);
+                this.showToast("danger", `${error.response.data.message} ! Pls try again`);
             }
         },
     },

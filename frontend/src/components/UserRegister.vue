@@ -54,6 +54,8 @@
 import axios from "axios";
 
 export default {
+    inject: ["showToast"],
+
     name: "UserRegister",
 
     data() {
@@ -78,12 +80,12 @@ export default {
 
         async handleRegister() {
             if (this.password !== this.confirmPassword) {
-                alert("Passwords do not match");
+                this.showToast("danger", "Passwords do not match");
                 return;
             }
 
             if (this.password.length < 8) {
-                alert("Password must be at least 8 characters");
+                this.showToast("danger", "Password must be at least 8 characters");
                 return;
             }
 
@@ -102,12 +104,12 @@ export default {
                 if (res.status === 201) {
                     localStorage.setItem("user", JSON.stringify(user));
 
-                    alert("Account created successfully");
+                    this.showToast("success", "Account created successfully");
 
                     this.$router.push("/login");
                 }
             } catch (error) {
-                alert(`${error.response.data.message} ! Pls try again`);
+                this.showToast("danger", `${error.response.data.message} ! Pls try again`);
             }
         },
     },

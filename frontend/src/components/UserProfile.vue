@@ -35,6 +35,8 @@
 
 <script>
 export default {
+    inject: ["showToast"],
+
     name: "UserProfile",
 
     data() {
@@ -59,7 +61,7 @@ export default {
         saveAsDraft() {
             localStorage.setItem("aboutMeDraft", this.editedAboutMe);
 
-            alert("Saved as draft!");
+            this.showToast("success", "Saved as draft!");
         },
 
         submitAboutMe() {
@@ -70,7 +72,7 @@ export default {
             this.isSubmitted = true;
             this.isEditing = false;
 
-            alert("About Me submitted successfully!");
+            this.showToast("success", "About Me submitted successfully!");
         },
     },
 };
